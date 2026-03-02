@@ -1,0 +1,9 @@
+clerk:
+  email: clerk@tirs.gov.ng
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  role: 0
+
+approver:
+  email: approver@tirs.gov.ng
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  role: 1

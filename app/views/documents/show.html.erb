@@ -1,0 +1,63 @@
+<div class="max-w-5xl mx-auto space-y-8">
+  <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm flex justify-between items-center">
+    <div>
+      <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2"><%= @document.title %></h1>
+    </div>
+    <%# Listening on the same shared frequency %>
+    <%= turbo_stream_from "document_status_#{@document.id}" %>
+    <div class="flex items-center space-x-3">
+      <%# 1. AI Analysis Button (Existing) %>
+      <% unless @document.versions.exists?(ai_generated: true) %>
+        <%= button_to generate_memo_document_path(@document), method: :post, class: "px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold text-xs hover:bg-indigo-700 transition-all flex items-center" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-width="2"/></svg>
+          Run AI Analysis
+        <% end %>
+      <% end %>
+      <%# 2. THE NEW SUBMIT BUTTON %>
+      <% if @document.workflow_instance&.draft? && current_user.clerk? %>
+        <%= button_to submit_document_path(@document), method: :patch, class: "px-6 py-3 bg-tirs-medium text-white rounded-xl font-bold text-xs hover:bg-tirs-dark transition-all flex items-center shadow-lg shadow-emerald-900/10" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2.5"/></svg>
+          Submit for Approval
+        <% end %>
+      <% end %>
+      <%# 3. Download Button (Existing) %>
+      <% if @document.file.attached? %>
+        <%= link_to "Download Source", rails_blob_path(@document.file, disposition: "attachment"), class: "px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-xs hover:bg-slate-200 transition-all" %>
+      <% else %>
+        <div class="px-6 py-3 bg-rose-50 text-rose-500 rounded-xl font-bold text-xs border border-rose-100">
+          Source File Missing
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-8">
+      <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
+        <div class="bg-slate-50 px-8 py-4 border-b border-slate-200 flex justify-between items-center">
+          <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest leading-none">Intelligence Engine</h3>
+        </div>
+        <div class="p-8" id="ai_section">
+          <% if (ai_version = @document.versions.find_by(ai_generated: true)) %>
+            <%= render "documents/ai_result", version: ai_version %>
+          <% else %>
+            <p class="text-slate-400 italic text-sm py-4">AI analysis has not been triggered for this document yet.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="space-y-6">
+      <div class="bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm text-left">
+        <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest mb-6">Audit Trail</h3>
+        <div id="audit_log_container" class="space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+          <%# In document view, we might not have @audits, so we fetch from document %>
+          <% audits = @document.audits.descending %>
+          <% if audits.any? %>
+            <%= render partial: 'workflow_instances/audit_entry', collection: audits, as: :audit %>
+          <% else %>
+            <p id="empty_audit_msg" class="text-[10px] text-slate-400 italic">No historical data found.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -32,3 +32,9 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+demo
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+demo_docs

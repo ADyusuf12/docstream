@@ -1,0 +1,2 @@
+module WorkflowInstancesHelper
+end

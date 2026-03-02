@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TIRS Digital Certificate</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <style>
+      @media print {
+        .no-print { display: none !important; }
+        body { background-color: white !important; padding: 0 !important; }
+        .max-w-4xl { max-width: 100% !important; box-shadow: none !important; border: none !important; }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 p-8 md:p-20">
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl p-12 md:p-16 border-t-[12px] border-emerald-600 relative">
+      <%= yield %>
+      <div class="mt-12 flex justify-center no-print">
+        <button onclick="window.print()" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg">
+          Download PDF / Print
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

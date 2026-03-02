@@ -1,0 +1,4 @@
+one:
+  document: tax_report
+  user: clerk
+  aasm_state: draft

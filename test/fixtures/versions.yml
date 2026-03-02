@@ -1,0 +1,5 @@
+ai_memo:
+  document: tax_report
+  content: "Linguistic pattern analysis..."
+  ai_generated: true
+  metadata: "---\nrisk_score: High\nconfidence: 0.84\n" # Stored as YAML string

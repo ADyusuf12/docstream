@@ -1,0 +1,45 @@
+<div class="flex items-center justify-between mb-10">
+  <div>
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight">Registry</h1>
+    <h2 class="text-sm text-slate-500 mt-1">Centralized document repository for TIRS.</h2>
+  </div>
+  <%= link_to new_document_path, class: "bg-tirs-dark text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-black transition-all shadow-lg flex items-center" do %>
+    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2"/></svg>
+    New Upload
+  <% end %>
+</div>
+<div class="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden">
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr class="bg-slate-50 border-b border-slate-200">
+        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Document Title</th>
+        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      <% @documents.each do |document| %>
+        <%# Subscription channel for this specific document's status changes %>
+        <%= turbo_stream_from "document_status_#{document.id}" %>
+        <tr class="hover:bg-slate-50 transition-colors group">
+          <td class="px-8 py-5">
+            <span class="block font-bold text-slate-900 group-hover:text-tirs-medium transition-colors"><%= document.title %></span>
+            <span class="text-[10px] text-slate-400 uppercase font-medium">
+              Uploaded by <%= document.user.email.split('@').first %>
+            </span>
+          </td>
+          <td class="px-8 py-5">
+            <%# The target ID that matches the broadcast in WorkflowInstance model %>
+            <div id="status_badge_<%= document.id %>">
+              <%= render "shared/status_badge", state: document.workflow_instance&.aasm_state || 'draft' %>
+            </div>
+          </td>
+          <td class="px-8 py-5 text-right">
+            <%= link_to "Open File", document_path(document),
+                class: "text-xs font-black text-tirs-medium hover:text-tirs-dark uppercase tracking-wider" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

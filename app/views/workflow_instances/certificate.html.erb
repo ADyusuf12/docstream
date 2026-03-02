@@ -1,0 +1,56 @@
+<div class="flex justify-between items-start mb-12 text-left">
+  <div>
+    <h1 class="text-4xl font-black text-slate-900 tracking-tighter uppercase">Certificate of Registry</h1>
+    <p class="text-slate-500 font-bold tracking-widest text-xs mt-2">TAX INTELLIGENCE & REVENUE SYSTEM</p>
+  </div>
+  <div class="text-right">
+    <div class="inline-block p-4 border-2 border-emerald-600 rounded-2xl">
+      <div class="text-[10px] font-black text-emerald-600 uppercase mb-1">Status</div>
+      <div class="text-2xl font-black text-slate-900 uppercase">Sealed</div>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-3 gap-8 mb-12 text-left items-center">
+  <div class="col-span-1 space-y-4">
+    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Document Identification</h3>
+    <p class="text-lg font-bold text-slate-900 leading-tight"><%= @workflow.document.title %></p>
+    <p class="text-xs text-slate-500 italic">Filed by: <%= @workflow.document.user.email %></p>
+  </div>
+  <div class="col-span-1 space-y-4">
+    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Digital Fingerprint</h3>
+    <code class="text-[9px] block bg-slate-50 p-2 rounded break-all border border-slate-100 font-mono text-slate-600">
+      <%= Digest::SHA256.hexdigest("#{@workflow.id}-#{@workflow.updated_at}") %>
+    </code>
+  </div>
+  <div class="col-span-1 flex justify-end">
+    <div class="p-2 border border-slate-100 rounded-xl bg-white shadow-sm">
+      <%= @svg.html_safe %>
+      <p class="text-[7px] font-black text-center text-slate-400 uppercase mt-1 tracking-tighter">Scan to Verify</p>
+    </div>
+  </div>
+</div>
+<div class="border-y border-slate-100 py-8 mb-12 text-left">
+  <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Intelligence Briefing</h3>
+  <div class="text-slate-700 italic leading-relaxed">
+    <% if (ai_version = @workflow.document.versions.find_by(ai_generated: true)) %>
+      <%# Update this line here too %>
+      <%= highlight_risk_factors(ai_version.content) %>
+    <% else %>
+      Verification completed via manual registry protocol.
+    <% end %>
+  </div>
+</div>
+<div class="flex justify-between items-end border-t border-slate-100 pt-12">
+  <div class="space-y-1 text-left">
+    <p class="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Authorized Approver</p>
+    <p class="font-serif italic text-3xl text-slate-900 border-b border-slate-200 pb-2 mb-2">
+      <%= @approver.email.split('@').first.capitalize %>
+    </p>
+    <p class="text-[10px] text-slate-500 font-medium">
+      Digitally Signed on <%= @workflow.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+    </p>
+  </div>
+  <div class="h-24 w-24 opacity-10 text-emerald-800">
+    <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 0L61.2 38.8H100L68.8 61.2L80 100L50 77.6L20 100L31.2 61.2L0 38.8H38.8L50 0Z"/></svg>
+  </div>
+</div>

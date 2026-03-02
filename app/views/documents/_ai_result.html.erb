@@ -1,0 +1,42 @@
+<%# with_indifferent_access ensures string/symbol keys both work %>
+<% metadata = (version.metadata || {}).with_indifferent_access %>
+<% risk_level = metadata[:risk_score] || 'Unknown' %>
+<% confidence_score = (metadata[:confidence].to_f * 100).to_i %>
+<% entities = Array(metadata[:entities]) %>
+<div class="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+  <div class="flex items-center space-x-2 mb-6">
+    <div class="h-px flex-1 bg-slate-100"></div>
+    <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">AI Generated Analysis</span>
+    <div class="h-px flex-1 bg-slate-100"></div>
+  </div>
+  <div class="space-y-6">
+    <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed font-medium">
+      <%= simple_format(version.content) %>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Risk Assessment</p>
+        <div class="flex items-center space-x-2">
+          <div class="h-2 w-2 rounded-full <%= risk_level == 'Low' ? 'bg-emerald-500' : (risk_level == 'High' ? 'bg-rose-500' : 'bg-slate-300') %>"></div>
+          <span class="text-sm font-bold text-slate-900"><%= risk_level %></span>
+        </div>
+      </div>
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Analysis Confidence</p>
+        <span class="text-sm font-bold text-slate-900"><%= confidence_score %>%</span>
+      </div>
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Entity Detection</p>
+        <div class="flex flex-wrap gap-1">
+          <% if entities.any? %>
+            <% entities.each do |entity| %>
+              <span class="text-[9px] bg-white border border-slate-200 px-1.5 py-0.5 rounded-md font-bold text-slate-600"><%= entity %></span>
+            <% end %>
+          <% else %>
+            <span class="text-[9px] text-slate-400 italic font-medium">No entities flagged</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

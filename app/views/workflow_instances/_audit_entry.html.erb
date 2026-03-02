@@ -1,0 +1,29 @@
+<div id="<%= dom_id(audit) %>" class="flex items-start space-x-3 py-3 border-b border-slate-50 last:border-0 animate-in fade-in slide-in-from-right-4">
+  <div class="mt-1">
+    <% if audit.action == 'create' %>
+      <div class="h-2 w-2 rounded-full <%= audit.auditable_type == 'Version' ? 'bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]' : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' %>"></div>
+    <% elsif audit.action == 'update' %>
+      <div class="h-2 w-2 rounded-full bg-amber-500"></div>
+    <% else %>
+      <div class="h-2 w-2 rounded-full bg-slate-300"></div>
+    <% end %>
+  </div>
+  <div class="flex-1">
+    <p class="text-[11px] font-bold text-slate-900 leading-none">
+      <%= (audit.auditable_type == 'Version' && audit.auditable&.ai_generated) ? "AI Engine" : (audit.user&.email || "System") %>
+      <span class="font-medium text-slate-500">
+        <%= audit.action == 'create' ? (audit.auditable_type == 'Version' ? "generated" : "initialized") : "modified" %>
+        <%= audit.auditable_type.underscore.humanize.downcase %>
+      </span>
+    </p>
+    <% if audit.action == 'update' && audit.audited_changes.present? %>
+      <div class="mt-1 text-[10px] text-slate-400 font-mono">
+        <% audit.audited_changes.each do |field, values| %>
+          <% next if ['updated_at', 'metadata'].include?(field) %>
+          <span class="text-indigo-600 font-bold"><%= field %></span>: <%= values.is_a?(Array) ? values.last : values %>
+        <% end %>
+      </div>
+    <% end %>
+    <p class="text-[9px] text-slate-400 mt-1 font-medium tracking-tight"><%= audit.created_at.strftime("%b %d, %H:%M:%S") %></p>
+  </div>
+</div>
