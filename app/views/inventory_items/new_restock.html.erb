@@ -1,0 +1,41 @@
+<%# app/views/inventory_items/new_restock.html.erb %>
+<div class="max-w-2xl mx-auto px-6 py-10">
+  <div class="mb-10">
+    <%= link_to inventory_items_path, class: "text-slate-400 hover:text-slate-900 flex items-center text-xs font-black uppercase tracking-widest mb-4 transition-colors group" do %>
+      <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-width="2"/></svg>
+      Back to Central Store
+    <% end %>
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight text-emerald-600">Restock Asset</h1>
+    <p class="text-slate-500 mt-2 font-medium italic">Recording incoming supply for <%= @inventory_item.name %>.</p>
+  </div>
+  <%= form_with url: process_restock_inventory_item_path(@inventory_item), method: :patch, class: "space-y-6" do |f| %>
+    <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-xl overflow-hidden">
+      <div class="p-8 md:p-12 space-y-8">
+        <%# Current Context Indicator %>
+        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+          <div>
+            <p class="text-[10px] font-black text-slate-400 uppercase">Current Vault Level</p>
+            <p class="text-2xl font-black text-slate-900"><%= @inventory_item.quantity %> <span class="text-xs text-slate-400 uppercase"><%= @inventory_item.unit %></span></p>
+          </div>
+          <svg class="w-8 h-8 text-emerald-500 opacity-20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </div>
+        <%# Quantity Input %>
+        <div class="space-y-4">
+          <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Quantity Received</label>
+          <%= f.number_field :restock_amount, min: 1, required: true, placeholder: "Enter incoming units...",
+              class: "w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 font-bold text-slate-700 focus:border-emerald-500 focus:ring-0 transition-all text-xl" %>
+        </div>
+        <%# Audit Note %>
+        <div class="space-y-4">
+          <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Reference / Waybill Note</label>
+          <%= f.text_field :reference_note, placeholder: "e.g., Delivery from Govt. Printer - Batch #402",
+              class: "w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 font-medium text-slate-700 focus:border-emerald-500 focus:ring-0 transition-all" %>
+        </div>
+      </div>
+      <div class="bg-slate-50 p-8 border-t border-slate-100 flex justify-end">
+        <%= f.submit "Update Central Vault",
+            class: "bg-emerald-600 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-900 hover:shadow-2xl transition-all cursor-pointer" %>
+      </div>
+    </div>
+  <% end %>
+</div>

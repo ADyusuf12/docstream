@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_25_150341) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_04_101237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -72,6 +72,30 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_25_150341) do
     t.index ["user_id"], name: "index_documents_on_user_id"
   end
 
+  create_table "inventory_items", force: :cascade do |t|
+    t.string "name"
+    t.string "category"
+    t.integer "quantity"
+    t.string "unit"
+    t.integer "low_stock_threshold"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "requisitions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "inventory_item_id", null: false
+    t.integer "quantity_requested"
+    t.string "status"
+    t.text "purpose"
+    t.string "serial_number_start"
+    t.string "serial_number_end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inventory_item_id"], name: "index_requisitions_on_inventory_item_id"
+    t.index ["user_id"], name: "index_requisitions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -108,6 +132,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_25_150341) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "documents", "users"
+  add_foreign_key "requisitions", "inventory_items"
+  add_foreign_key "requisitions", "users"
   add_foreign_key "versions", "documents"
   add_foreign_key "workflow_instances", "documents"
   add_foreign_key "workflow_instances", "users"

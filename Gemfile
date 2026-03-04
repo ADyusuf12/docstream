@@ -54,6 +54,10 @@ gem "audited"       # for audit logs
 
 gem "minitest", "~> 5.0", "< 6.0"
 
+gem "htmlbeautifier"
+
+gem "kaminari"
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -1,0 +1,66 @@
+<%# app/views/requisitions/_requisition.html.erb %>
+<%
+  # Badge Styling Logic kept in the View as requested
+  badge_colors = case requisition.status
+    when 'approved' then 'bg-emerald-50 text-emerald-600 border-emerald-100'
+    when 'pending'  then 'bg-amber-50 text-amber-600 border-amber-100'
+    when 'rejected' then 'bg-rose-50 text-rose-600 border-rose-100'
+    else 'bg-slate-50 text-slate-600 border-slate-100'
+  end
+%>
+<tr class="hover:bg-slate-50/50 transition-colors group">
+  <td class="px-8 py-6">
+    <p class="text-sm font-bold text-slate-900 leading-none mb-1 group-hover:text-emerald-600 transition-colors">
+      <%= requisition.user.email.split('@').first.upcase %>
+    </p>
+    <p class="text-[10px] text-slate-500 font-medium italic">
+      <%= requisition.purpose.presence || "No purpose specified" %>
+    </p>
+  </td>
+  <td class="px-8 py-6">
+    <div class="flex items-center">
+      <div class="h-2 w-2 rounded-full bg-slate-900 mr-3 shadow-sm"></div>
+      <span class="text-sm font-black text-slate-700 uppercase tracking-tight">
+        <%= requisition.inventory_item.name %>
+      </span>
+    </div>
+  </td>
+  <td class="px-8 py-6 text-center">
+    <span class="px-3 py-1 bg-slate-100 rounded-lg font-mono text-xs font-bold text-slate-700 border border-slate-200">
+      <%= requisition.quantity_requested %>
+    </span>
+  </td>
+  <td class="px-8 py-6">
+    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border <%= badge_colors %> shadow-sm">
+      <%= requisition.status %>
+    </span>
+  </td>
+  <td class="px-8 py-6">
+    <div class="flex justify-end gap-2">
+      <% if requisition.status == "pending" %>
+        <% if current_user.admin? || current_user.approver? %>
+          <%# Approve Action %>
+          <%= button_to approve_requisition_path(requisition), method: :patch,
+              class: "p-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all border border-emerald-100 shadow-sm group-hover:scale-110",
+              data: { turbo_confirm: "CONFIRM ISSUANCE: Deduct #{requisition.quantity_requested} units from vault?" } do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="3"/></svg>
+          <% end %>
+          <%# Reject Action %>
+          <%= button_to reject_requisition_path(requisition), method: :patch,
+              class: "p-2 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition-all border border-rose-100 shadow-sm group-hover:scale-110",
+              data: { turbo_confirm: "Reject this request?" } do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="3"/></svg>
+          <% end %>
+        <% else %>
+          <div class="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-50 text-slate-400 rounded-lg border border-slate-100">
+            <span class="text-[9px] font-black uppercase tracking-widest">Awaiting Review</span>
+          </div>
+        <% end %>
+      <% else %>
+        <span class="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em] px-2 py-1">
+          Archived Record
+        </span>
+      <% end %>
+    </div>
+  </td>
+</tr>

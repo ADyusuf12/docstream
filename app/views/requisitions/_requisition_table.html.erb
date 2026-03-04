@@ -1,0 +1,28 @@
+<%# app/views/requisitions/_requisition_table.html.erb %>
+<div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr class="bg-slate-50/50 border-b border-slate-100">
+        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Requester / Purpose</th>
+        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Resource Item</th>
+        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">Quantity</th>
+        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Status</th>
+        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-50">
+      <% if requisitions.any? %>
+        <%= render partial: 'requisitions/requisition', collection: requisitions, as: :requisition %>
+      <% else %>
+        <tr>
+          <td colspan="5" class="px-8 py-24 text-center">
+            <div class="flex flex-col items-center text-slate-300">
+              <svg class="w-12 h-12 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-width="2"/></svg>
+              <p class="text-xs font-black uppercase tracking-[0.2em]">The vault queue is currently empty</p>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

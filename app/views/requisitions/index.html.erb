@@ -1,0 +1,19 @@
+<%# app/views/requisitions/index.html.erb %>
+<div class="max-w-7xl mx-auto px-6 py-10">
+  <%# Persistent Header with Create Button %>
+  <div class="flex justify-between items-end mb-8">
+    <div>
+      <h1 class="text-4xl font-black text-slate-900 tracking-tight">Requisition <span class="text-emerald-600">Queue</span></h1>
+      <p class="text-slate-500 mt-2 font-medium">Tracking the issuance and movement of security documents.</p>
+    </div>
+    <%# The "Always On" Button %>
+    <%= link_to new_requisition_path, class: "flex items-center bg-slate-900 text-white px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-emerald-600 hover:shadow-2xl hover:shadow-emerald-200 transition-all group" do %>
+      <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M12 4v16m8-8H4" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      New Requisition
+    <% end %>
+  </div>
+  <%# The Table Partial %>
+  <%= render 'requisition_table', requisitions: @requisitions %>
+</div>

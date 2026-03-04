@@ -1,0 +1,13 @@
+<%# app/views/requisitions/new.html.erb %>
+<div class="max-w-3xl mx-auto px-6 py-10">
+  <div class="mb-10">
+    <%= link_to requisitions_path, class: "text-slate-400 hover:text-slate-900 flex items-center text-xs font-black uppercase tracking-widest mb-4 transition-colors group" do %>
+      <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-width="2"/></svg>
+      Back to Queue
+    <% end %>
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight">Request <span class="text-emerald-600">Resources</span></h1>
+    <p class="text-slate-500 mt-2 font-medium">Internal Requisition Form for Security Documents & Stationaries.</p>
+  </div>
+  <%# Render the partial and pass the @requisition object as 'requisition' %>
+  <%= render 'form', requisition: @requisition %>
+</div>

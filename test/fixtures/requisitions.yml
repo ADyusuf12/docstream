@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  inventory_item: one
+  quantity_requested: 1
+  status: MyString
+  purpose: MyText
+  serial_number_start: MyString
+  serial_number_end: MyString
+
+two:
+  user: two
+  inventory_item: two
+  quantity_requested: 1
+  status: MyString
+  purpose: MyText
+  serial_number_start: MyString
+  serial_number_end: MyString

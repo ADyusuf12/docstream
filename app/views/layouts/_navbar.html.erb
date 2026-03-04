@@ -1,0 +1,84 @@
+<%# app/views/layouts/_navbar.html.erb %>
+<nav class="sticky top-0 z-40 bg-tirs-dark/95 backdrop-blur-md border-b border-white/10 shadow-2xl">
+  <div class="container mx-auto px-6">
+    <div class="flex justify-between items-center h-20">
+      <%# Logo Section %>
+      <%= link_to root_path, class: "flex items-center group cursor-pointer" do %>
+        <div class="relative">
+          <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-tirs-light rounded blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+          <div class="relative bg-white text-tirs-dark h-11 w-11 rounded-xl flex items-center justify-center font-black text-xl shadow-lg transform group-hover:rotate-3 transition-transform">
+            DS
+          </div>
+        </div>
+        <div class="ml-4">
+          <span class="font-black text-xl tracking-tight block leading-none text-white uppercase">
+            TIRS <span class="text-tirs-light italic">WMS</span>
+          </span>
+          <span class="text-[9px] uppercase tracking-[0.3em] font-bold text-emerald-200/60 block mt-1">
+            Government of Taraba State
+          </span>
+        </div>
+      <% end %>
+      <%# Central Navigation Pill %>
+      <div class="hidden lg:flex items-center bg-white/5 rounded-2xl p-1.5 border border-white/10">
+        <%# 1. Dashboard %>
+        <%= link_to root_path, class: "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center #{current_page?(root_path) ? 'bg-white text-tirs-dark shadow-lg' : 'text-emerald-50 hover:bg-white/10'}" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-width="2"/></svg>
+          Dashboard
+        <% end %>
+        <%# 2. Registry %>
+        <%= link_to documents_path, class: "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center #{controller_name == 'documents' ? 'bg-white text-tirs-dark shadow-lg' : 'text-emerald-50 hover:bg-white/10'}" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2"/></svg>
+          Documents
+        <% end %>
+        <%# 3. Workflows %>
+        <%= link_to workflow_instances_path, class: "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center #{controller_name == 'workflow_instances' ? 'bg-white text-tirs-dark shadow-lg' : 'text-emerald-50 hover:bg-white/10'}" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-width="2"/></svg>
+          Workflows
+        <% end %>
+        <%# 4. Inventory %>
+        <%= link_to inventory_items_path, class: "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center #{controller_name == 'inventory_items' ? 'bg-white text-tirs-dark shadow-lg' : 'text-emerald-50 hover:bg-white/10'}" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" stroke-width="2"/></svg>
+          Inventory
+        <% end %>
+        <%# 5. Requisitions %>
+        <%= link_to requisitions_path, class: "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center #{controller_name == 'requisitions' ? 'bg-white text-tirs-dark shadow-lg' : 'text-emerald-50 hover:bg-white/10'}" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg>
+          Requisitions
+        <% end %>
+        <%# 6. Audit (Admin Only) %>
+        <% if current_user&.admin? %>
+          <%= link_to admin_audits_path, class: "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center #{current_page?(admin_audits_path) ? 'bg-white text-tirs-dark shadow-lg' : 'text-emerald-50 hover:bg-white/10'}" do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-width="2"/></svg>
+            Audit
+          <% end %>
+        <% end %>
+      </div>
+      <%# User Profile & Logout %>
+      <div class="flex items-center space-x-4">
+        <% if user_signed_in? %>
+          <div class="bg-black/20 rounded-full pl-4 pr-1.5 py-1.5 flex items-center border border-white/10">
+            <div class="text-right mr-3">
+              <p class="text-[9px] font-black text-tirs-light uppercase leading-none mb-0.5 tracking-tighter">
+                <%= current_user.role %>
+              </p>
+              <p class="text-xs font-bold text-white/90 leading-none">
+                <%= current_user.email.split('@').first %>
+              </p>
+            </div>
+            <div class="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-400 to-tirs-medium flex items-center justify-center text-xs font-bold text-white border-2 border-white/20">
+              <%= current_user.email[0].upcase %>
+            </div>
+          </div>
+          <div class="h-6 w-px bg-white/10"></div>
+          <%= button_to destroy_user_session_path, method: :delete,
+          class: "p-2 rounded-xl text-emerald-200 hover:bg-rose-500/20 hover:text-rose-300 transition-all duration-300" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>

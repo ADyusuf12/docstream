@@ -1,0 +1,74 @@
+<div class="min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-[1000px] w-full bg-white rounded-[3rem] shadow-2xl shadow-slate-300/50 border border-slate-200 overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+    <%# Left Side: Brand & Context %>
+    <div class="md:w-1/2 bg-slate-900 p-12 flex flex-col justify-between text-white relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#334155 1px, transparent 1px); background-size: 20px 20px;"></div>
+      <div class="relative z-10">
+        <div class="flex items-center gap-3 mb-10">
+          <div>
+            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Secure Access Point</span>
+          </div>
+        </div>
+        <h2 class="text-5xl font-black tracking-tighter leading-[0.85] uppercase mb-8">
+          TIRS OVERSIGHT
+        </h2>
+        <div class="space-y-4">
+          <p class="text-slate-500 text-[11px] leading-relaxed max-w-xs italic">
+            Authorized access only. All sessions are encrypted and activity is logged for audit purposes.
+          </p>
+        </div>
+      </div>
+      <div class="relative z-10 pt-8 border-t border-white/5">
+        <div class="flex items-center justify-between text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
+          <span>Shield Protocol Active</span>
+          <span class="flex items-center gap-2 text-emerald-500">
+            <span class="h-1.5 w-1.5 rounded-full bg-current animate-pulse"></span>
+            Node Secure
+          </span>
+        </div>
+      </div>
+    </div>
+    <%# Right Side: Form %>
+    <div class="md:w-1/2 p-12 lg:p-20 flex flex-col justify-center bg-white">
+      <div class="mb-12">
+        <h1 class="text-2xl font-black text-slate-900 uppercase tracking-tight">Login</h1>
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">Please enter your credentials</p>
+      </div>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+        <div class="space-y-5">
+          <div class="group">
+            <%= f.label :email, "Email Address", class: "block text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-2 transition-colors group-focus-within:text-emerald-600" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "name@tirs.gov",
+                class: "w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 transition-all shadow-sm" %>
+          </div>
+          <div class="group">
+            <%= f.label :password, "Password", class: "block text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-2 transition-colors group-focus-within:text-emerald-600" %>
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: "••••••••",
+                class: "w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 transition-all shadow-sm" %>
+          </div>
+        </div>
+        <div class="flex items-center justify-between py-2">
+          <% if devise_mapping.rememberable? %>
+            <div class="flex items-center gap-3">
+              <%= f.check_box :remember_me, class: "w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" %>
+              <%= f.label :remember_me, "Remember me", class: "text-[10px] font-black uppercase tracking-widest text-slate-400 cursor-pointer" %>
+            </div>
+          <% end %>
+          <% if devise_mapping.recoverable? %>
+            <%= link_to "Forgot Password?", new_password_path(resource_name), class: "text-[9px] font-black uppercase text-slate-400 hover:text-slate-900 transition-colors underline decoration-slate-200 underline-offset-4" %>
+          <% end %>
+        </div>
+        <div class="pt-6">
+          <%= f.submit "Sign In",
+              class: "w-full bg-slate-900 text-white rounded-2xl py-5 text-[11px] font-black uppercase tracking-[0.25em] hover:bg-emerald-600 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all cursor-pointer" %>
+        </div>
+      <% end %>
+      <div class="mt-12 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full border border-slate-100">
+          <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+          <p class="text-[9px] font-bold uppercase tracking-widest text-slate-400">Restricted Government Asset</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

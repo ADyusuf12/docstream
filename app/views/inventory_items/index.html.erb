@@ -1,0 +1,25 @@
+<%# app/views/inventory_items/index.html.erb %>
+<div class="max-w-7xl mx-auto px-6 py-10 space-y-10">
+  <%# 1. Summary Header Section %>
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div>
+      <div class="flex items-center space-x-2 mb-2">
+        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Live Vault Monitoring</span>
+      </div>
+      <h1 class="text-4xl font-black text-slate-900 tracking-tight">TIRS <span class="text-emerald-600">Central Store</span></h1>
+    </div>
+    <div class="flex items-center bg-white border border-slate-200 rounded-[2rem] p-2 shadow-sm">
+      <div class="px-6 py-2 border-r border-slate-100">
+        <p class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Total Categories</p>
+        <p class="text-xl font-black text-slate-900"><%= @inventory_items.count %></p>
+      </div>
+      <div class="px-6 py-2">
+        <p class="text-[9px] font-black text-rose-500 uppercase tracking-[0.2em]">Restock Alerts</p>
+        <p class="text-xl font-black text-rose-600"><%= @low_stock_count %></p>
+      </div>
+    </div>
+  </div>
+  <%# 2. The Table Component %>
+  <%= render 'inventory_table', items: @inventory_items %>
+</div>

@@ -1,18 +1,21 @@
-# DocStream - Digital Document Management & AI Auditing System
+# TIRS Oversight - Document Management & AI Auditing System
 
 ## System Overview
 
-DocStream is a sophisticated Document Management and AI Auditing system built for the Taraba State Internal Revenue Service (TIRS). The system implements a secure Clerk-to-Approver workflow enhanced by AI-driven risk analysis, ensuring 100% auditability and transparency in document processing.
+TIRS Oversight is a comprehensive Document Management and AI Auditing system built for the Taraba State Internal Revenue Service (TIRS). The system implements a secure Clerk-to-Approver workflow enhanced by AI-driven risk analysis, ensuring 100% auditability and transparency in document processing, with integrated Vault and Inventory Management capabilities.
 
 ### Workflow Architecture
 
 ```
 Clerk (Document Upload) → AI Intelligence Engine (Risk Analysis) → Approver (Final Decision)
+Clerk (Document Requisition) → Approver (Approval) → Vault Movement → Document Issuance
 ```
 
 1. **Clerk**: Uploads documents and initiates the workflow
 2. **AI Intelligence Engine**: Performs automated risk analysis and generates executive briefs
 3. **Approver**: Reviews AI findings and makes final approval/rejection decisions
+4. **Inventory Management**: Tracks security document stock levels and manages requisitions
+5. **Vault Operations**: Controls document issuance and maintains security protocols
 
 ## Technical Stack
 
@@ -53,6 +56,14 @@ The system features an advanced AI analysis capability through the `GenerateMemo
 - **Tamper-proof Records**: Blockchain-like audit trail ensures document integrity
 - **Instant Verification**: QR codes can be scanned to verify document authenticity
 
+### Vault & Inventory Management
+
+- **Security Document Tracking**: Real-time monitoring of document stock levels
+- **Low Stock Thresholds**: Automated alerts when inventory falls below critical levels
+- **Requisition Workflow**: Clerk requests → Approver approval → Vault movement
+- **Issuance Intelligence**: Daily throughput monitoring and reporting
+- **Audit Trail**: Complete history of all inventory movements
+
 ## Database Schema
 
 ```
@@ -60,6 +71,9 @@ Users (role-based: Clerk, Approver, Admin)
 ├── Documents (file uploads with metadata)
 │   ├── Versions (document revisions with AI attribution)
 │   └── WorkflowInstances (approval state tracking)
+├── InventoryItems (security document stock tracking)
+│   ├── Requisitions (document request workflow)
+│   └── Audits (complete action history)
 └── Audits (complete action history)
 ```
 
@@ -69,6 +83,8 @@ Users (role-based: Clerk, Approver, Admin)
 - **Documents**: Core document entity with file attachments
 - **Versions**: Document revisions with AI-generated content
 - **WorkflowInstances**: State machine for approval workflow
+- **InventoryItems**: Security document tracking with low-stock thresholds
+- **Requisitions**: Document request workflow with approval process
 - **Audits**: Complete audit trail of all system actions
 
 ## Getting Started
@@ -144,4 +160,4 @@ kamal deploy
 
 ---
 
-**Digital Transformation**: DocStream represents a paradigm shift in government document processing, combining human expertise with AI capabilities to ensure transparency, accountability, and efficiency in revenue management.
+**Digital Transformation**: TIRS Oversight represents a paradigm shift in government document processing, combining human expertise with AI capabilities to ensure transparency, accountability, and efficiency in revenue management.
