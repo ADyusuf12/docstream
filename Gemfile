@@ -52,7 +52,7 @@ gem "aasm"          # for workflow state machine
 
 gem "audited"       # for audit logs
 
-gem "minitest", "~> 5.0", "< 6.0"
+gem "minitest", "~> 6.0"
 
 gem "htmlbeautifier"
 
